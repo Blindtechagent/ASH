@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes - AccessibleStudyHub</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/nav.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../auth/auth.js"></script>
+    <script src="database.js"></script>
+</head>
+<body class="ash-bg-black ash-text-yellow">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="w3-sidebar ash-sidebar w3-bar-block" id="mySidebar" aria-label="Main Navigation">
+        <div class="w3-container w3-padding-16">
+            <button onclick="toggleSidebar()" class="ash-button" aria-label="Close navigation menu">Close Menu &times;</button>
+        </div>
+        <a href="../index.html" class="w3-bar-item">Home</a>
+        <a href="books.html" class="w3-bar-item">Books</a>
+        <a href="notes.html" class="w3-bar-item">Notes</a>
+        <a href="practice.html" class="w3-bar-item">Practice Questions</a>
+        <a href="sample-papers.html" class="w3-bar-item">Sample Papers</a>
+        <hr class="w3-border-yellow">
+        <a href="../auth/teacher-panel.html" class="teacher-link w3-bar-item" style="display:none">Teacher Panel</a>
+        <a href="../auth/manage-account.html" class="manage-account-link w3-bar-item" style="display:none">Manage Account</a>
+        <a href="../auth/login.html" class="login-link w3-bar-item">Login</a>
+        <a href="../auth/signup.html" class="signup-link w3-bar-item">Sign Up</a>
+        <button onclick="logout()" class="logout-btn w3-bar-item" style="display:none">Logout</button>
+    </nav>
+    <div class="w3-overlay" id="myOverlay" onclick="toggleSidebar()" aria-hidden="true"></div>
+
+    <header class="w3-container ash-bg-black ash-border-yellow w3-padding w3-center" style="border-bottom: 3px solid #FFFF00 !important;">
+        <button class="ash-toggle-btn w3-left" onclick="toggleSidebar()" aria-label="Open navigation menu">Menu &#9776;</button>
+        <div class="w3-container">
+            <span style="font-size: 60px;" role="img" aria-label="AccessibleStudyHub Logo">🎓</span>
+            <h1 class="w3-xxlarge w3-bold w3-margin-top">AccessibleStudyHub</h1>
+            <p class="w3-xlarge">Your accessible gateway to learning materials.</p>
+        </div>
+    </header>
+
+    <main id="main-content" class="w3-content w3-padding-64">
+        <h1>Chapter-wise Notes</h1>
+        <p>Select your class to view available subjects and notes.</p>
+        
+        <div id="notes-container" class="w3-container w3-padding-16">
+            <div class="w3-center"><p>Loading classes...</p></div>
+        </div>
+
+        <!-- File Details Modal -->
+        <div id="file-modal" class="w3-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="w3-modal-content ash-bg-black ash-border-yellow w3-animate-top">
+                <header class="w3-container ash-border-yellow" style="border-bottom: 2px solid #FFFF00 !important;">
+                    <h2 id="modal-title" tabindex="-1">File Details</h2>
+                </header>
+                <div class="w3-container w3-padding-24" id="modal-content">
+                </div>
+                <footer class="w3-container ash-border-yellow w3-padding" style="border-top: 2px solid #FFFF00 !important;">
+                    <button class="ash-button w3-right" onclick="closeFileModal()">Close</button>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w3-container ash-bg-black w3-padding-64 ash-border-yellow" style="border-top: 3px solid #FFFF00 !important;">
+        <div class="w3-row-padding">
+            <div class="w3-col l6 m6 w3-margin-bottom">
+                <h3 class="w3-large w3-bold">Support</h3>
+                <ul class="w3-ul w3-border-0">
+                    <li><a href="../menu/about.html" class="ash-text-yellow">About Us</a></li>
+                    <li><a href="../menu/contact.html" class="ash-text-yellow">Contact Us</a></li>
+                    <li><a href="../menu/privacy.html" class="ash-text-yellow">Privacy Policy</a></li>
+                    <li><a href="../menu/terms.html" class="ash-text-yellow">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="w3-col l6 m6 w3-margin-bottom">
+                <h3 class="w3-large w3-bold">Stay Connected</h3>
+                <p>Email: support@accessiblestudyhub.com</p>
+                <div class="w3-xlarge w3-padding-16"><span role="img" aria-label="Social">📱 🌐 💬</span></div>
+            </div>
+        </div>
+        <div class="w3-container w3-center w3-border-top w3-border-yellow w3-margin-top w3-padding-16">
+            <p class="w3-medium w3-bold">Developed and maintained by Pawan Kumar</p>
+            <p class="w3-small">&copy; 2026 AccessibleStudyHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
