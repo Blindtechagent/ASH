@@ -1,0 +1,38 @@
+Firebase Realtime Database Security Rules
+==========================================
+Project: accessiblestudyhub-a56de
+Updated: 2026-07-20
+
+HOW TO APPLY:
+1. Go to https://console.firebase.google.com
+2. Select project: accessiblestudyhub-a56de
+3. Navigate to: Realtime Database -> Rules tab
+4. Replace existing rules with the JSON below
+5. Click "Publish"
+
+------------------------------------------------------------
+RULES (copy everything inside the triple dashes below):
+------------------------------------------------------------
+
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "materials": {
+      ".read": true,
+      ".write": "auth !== null"
+    }
+  }
+}
+
+------------------------------------------------------------
+
+EXPLANATION:
+- users/{uid}  -> Read & Write: only the account owner (auth.uid must match)
+                  Prevents users from reading each other's profile data.
+- materials    -> Read: public (anyone, including guests, can view books/notes)
+                  Write: only authenticated (logged-in) users can upload.

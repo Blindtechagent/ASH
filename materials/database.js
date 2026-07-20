@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Subjects Container (Slide-down)
                 const subjectsDiv = document.createElement('div');
                 subjectsDiv.id = sectionId;
+                subjectsDiv.dataset.accordionPanel = 'true';
                 subjectsDiv.className = 'w3-hide w3-container ash-border-yellow w3-padding-16';
                 subjectsDiv.style.borderLeft = '4px solid #FFFF00';
                 subjectsDiv.style.marginLeft = '10px';
@@ -77,25 +78,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleAccordion(id, btn) {
         const x = document.getElementById(id);
+        if (!x) return;
         const isOpen = x.classList.contains('w3-show');
         
-        // Close all other accordions
-        document.querySelectorAll('.w3-hide').forEach(acc => {
-            if (acc.id !== id) {
+        // Close all other accordion panels (only target panels, not all .w3-hide elements)
+        document.querySelectorAll('[data-accordion-panel="true"]').forEach(acc => {
+            if (acc.id !== id && acc.classList.contains('w3-show')) {
                 acc.classList.remove('w3-show');
+                acc.classList.add('w3-hide');
                 const otherBtn = acc.previousElementSibling;
-                otherBtn.setAttribute('aria-expanded', 'false');
-                otherBtn.querySelector('span').innerHTML = '&#9660;';
+                if (otherBtn) {
+                    otherBtn.setAttribute('aria-expanded', 'false');
+                    const span = otherBtn.querySelector('span');
+                    if (span) span.innerHTML = '&#9660;';
+                }
             }
         });
 
         // Toggle current one
         if (!isOpen) {
+            x.classList.remove('w3-hide');
             x.classList.add('w3-show');
             btn.setAttribute('aria-expanded', 'true');
             btn.querySelector('span').innerHTML = '&#9650;';
         } else {
             x.classList.remove('w3-show');
+            x.classList.add('w3-hide');
             btn.setAttribute('aria-expanded', 'false');
             btn.querySelector('span').innerHTML = '&#9660;';
         }
@@ -113,7 +121,15 @@ document.addEventListener('DOMContentLoaded', function() {
         title.innerText = `${subject} - ${label} Details`;
         content.innerHTML = '';
 
+        // Guard: ensure files is a plain object before iterating
+        if (!files || typeof files !== 'object') {
+            content.innerHTML = '<p>No file details available.</p>';
+            modal.style.display = 'block';
+            return;
+        }
+
         Object.values(files).forEach(file => {
+            if (!file || typeof file !== 'object') return; // skip malformed entries
             const detailHtml = `
                 <div class="ash-card w3-margin-bottom" role="group" aria-labelledby="file-title-${file.createdAt}">
                     <h3 class="w3-large w3-bold" id="file-title-${file.createdAt}">${file.title}</h3>

@@ -6,13 +6,13 @@
     <title>Teacher Panel - AccessibleStudyHub</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/nav.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="../js/firebase-config.js"></script>
-    <script src="auth.js"></script>
-    <script src="teacher.js"></script>
+    <script defer src="../js/nav.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script defer src="../js/firebase-config.js"></script>
+    <script defer src="auth.js"></script>
+    <script defer src="teacher.js"></script>
 </head>
 <body class="ash-bg-black ash-text-yellow">
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -51,6 +51,30 @@
         
         <div id="announcement" class="w3-panel w3-border ash-border-yellow w3-padding w3-center" style="display:none; margin-bottom:20px;"></div>
 
+        <!-- Google Drive Link Guide -->
+        <div class="ash-card w3-margin-bottom">
+            <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="toggleGuide()" role="button" aria-expanded="false" aria-controls="drive-guide" id="guide-toggle">
+                <h2 style="margin:0;">📖 How to Get a Google Drive Link</h2>
+                <span id="guide-arrow" aria-hidden="true" style="font-size:1.2rem;">&#9660;</span>
+            </div>
+            <div id="drive-guide" style="display:none; margin-top:16px;">
+                <ol style="line-height:2; padding-left:20px;">
+                    <li>Go to <a href="https://drive.google.com" target="_blank" rel="noopener" class="ash-text-yellow"><strong>drive.google.com</strong></a> and upload your file.</li>
+                    <li>Right-click the file and select <strong>"Share"</strong> (or click the share icon &#128279;).</li>
+                    <li>Under <strong>"General access"</strong>, click the dropdown and change it from <em>Restricted</em> to <strong>"Anyone with the link"</strong>.</li>
+                    <li>Make sure the role is set to <strong>"Viewer"</strong>.</li>
+                    <li>Click <strong>"Copy link"</strong> — the link will look like:<br>
+                        <code style="background:#1a1a1a; padding:4px 8px; border-radius:4px; font-size:0.85rem; word-break:break-all;">https://drive.google.com/file/d/FILE_ID/view?usp=sharing</code>
+                    </li>
+                    <li>Paste it in the <strong>"Google Drive Shareable Link"</strong> field below — it will be <strong>automatically converted</strong> to a direct download link.</li>
+                </ol>
+                <div style="background:#1a2a1a; border-left:4px solid #00cc44; padding:10px 14px; border-radius:4px; margin-top:8px;">
+                    <strong style="color:#00cc44;">&#10003; Auto-conversion</strong><br>
+                    <span style="font-size:0.9rem;">Shareable link &rarr; <code style="font-size:0.85rem;">https://drive.google.com/uc?export=download&amp;id=FILE_ID</code></span>
+                </div>
+            </div>
+        </div>
+
         <div class="ash-card">
             <h2>Upload Material</h2>
             <form id="upload-form">
@@ -86,13 +110,19 @@
                         </div>
                     </div>
 
+                    <div class="w3-margin-bottom">
+                        <label for="file-name">Material Name (e.g., NCERT Mathematics Part 1)</label>
+                        <input type="text" id="file-name" class="w3-input ash-bg-black ash-text-yellow ash-border-yellow" placeholder="Enter a descriptive name for this material" required>
+                    </div>
+
                     <div id="type-specific-fields" class="w3-row-padding" style="padding:0;">
                         <!-- Specific fields injected by JS -->
                     </div>
 
                     <div class="w3-margin-top">
-                        <label for="file-url">Google Drive Link</label>
-                        <input type="url" id="file-url" class="w3-input ash-bg-black ash-text-yellow ash-border-yellow" placeholder="https://drive.google.com/..." required>
+                        <label for="file-url">Google Drive Shareable Link</label>
+                        <input type="url" id="file-url" class="w3-input ash-bg-black ash-text-yellow ash-border-yellow" placeholder="https://drive.google.com/file/d/.../view?usp=sharing" required>
+                        <small id="converted-url-preview" style="display:none; color:#00cc44; margin-top:6px; display:block; word-break:break-all;"></small>
                     </div>
 
                     <button type="submit" class="ash-button w3-margin-top">Upload Material</button>

@@ -6,12 +6,12 @@
     <title>Manage Account - AccessibleStudyHub</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/nav.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="../js/firebase-config.js"></script>
-    <script src="auth.js"></script>
+    <script defer src="../js/nav.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script defer src="../js/firebase-config.js"></script>
+    <script defer src="auth.js"></script>
 </head>
 <body class="ash-bg-black ash-text-yellow">
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -85,6 +85,24 @@
             const nameInput = document.getElementById('new-name');
             const updateBtn = document.getElementById('update-name-btn');
 
+            function announce(message, type) {
+                const box = document.getElementById('announcement');
+                if (!box) return;
+                box.textContent = message;
+                box.style.display = 'block';
+                if (type === 'error') {
+                    box.style.backgroundColor = '#721c24';
+                    box.style.color = '#f8d7da';
+                } else if (type === 'success') {
+                    box.style.backgroundColor = '#155724';
+                    box.style.color = '#d4edda';
+                } else {
+                    box.style.backgroundColor = '#0c5460';
+                    box.style.color = '#d1ecf1';
+                }
+                setTimeout(() => { box.style.display = 'none'; }, 5000);
+            }
+
             firebase.auth().onAuthStateChanged(user => {
                 if (user) {
                     emailSpan.textContent = user.email;
@@ -103,10 +121,11 @@
             updateBtn.addEventListener('click', function() {
                 const newName = nameInput.value.trim();
                 const user = firebase.auth().currentUser;
-                if (!user || !newName) return;
+                if (!user) { announce('You are not logged in.', 'error'); return; }
+                if (!newName) { announce('Name cannot be empty.', 'error'); return; }
 
                 updateBtn.disabled = true;
-                updateBtn.textContent = "Updating...";
+                updateBtn.textContent = 'Updating...';
 
                 user.updateProfile({ displayName: newName })
                     .then(() => {
@@ -115,14 +134,14 @@
                         });
                     })
                     .then(() => {
-                        alert("Profile updated successfully!");
+                        announce('Profile updated successfully!', 'success');
                         updateBtn.disabled = false;
-                        updateBtn.textContent = "Update";
+                        updateBtn.textContent = 'Update';
                     })
                     .catch(err => {
-                        alert("Error: " + err.message);
+                        announce('Error: ' + err.message, 'error');
                         updateBtn.disabled = false;
-                        updateBtn.textContent = "Update";
+                        updateBtn.textContent = 'Update';
                     });
             });
         });
