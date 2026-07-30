@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(() => {
                     announce("Account created successfully!", "success");
                     setTimeout(() => {
-                        window.location.href = role === 'teacher' ? 'teacher-panel.html' : root + 'index.html';
+                        window.location.href = role === 'publisher' ? 'publisher-panel.html' : root + 'index.html';
                     }, 1500);
                 })
                 .catch((error) => {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         localStorage.setItem('userRole', userData.role);
                         announce("Logged in successfully!", "success");
                         setTimeout(() => {
-                            window.location.href = userData.role === 'teacher' ? 'teacher-panel.html' : root + 'index.html';
+                            window.location.href = userData.role === 'publisher' ? 'publisher-panel.html' : root + 'index.html';
                         }, 1000);
                     } else {
                         announce("User record not found. Please contact support.", "error");
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         googleBtn.addEventListener('click', function() {
             const provider = new firebase.auth.GoogleAuthProvider();
             const roleSelect = document.getElementById('role');
-            const selectedRole = roleSelect ? roleSelect.value : 'student';
+            const selectedRole = roleSelect ? roleSelect.value : 'reader';
 
             announce("Opening Google Sign-In...", "info");
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('userRole', role);
                     announce("Logged in with Google!", "success");
                     setTimeout(() => {
-                        window.location.href = role === 'teacher' ? 'teacher-panel.html' : root + 'index.html';
+                        window.location.href = role === 'publisher' ? 'publisher-panel.html' : root + 'index.html';
                     }, 1000);
                 })
                 .catch((error) => announce("Google Auth Error: " + error.message, "error"));
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const loginLinks = document.querySelectorAll('.login-link');
         const signupLinks = document.querySelectorAll('.signup-link');
         const logoutBtns = document.querySelectorAll('.logout-btn');
-        const teacherLinks = document.querySelectorAll('.teacher-link');
+        const publisherLinks = document.querySelectorAll('.publisher-link');
         const manageAccountLinks = document.querySelectorAll('.manage-account-link');
         const greetingSection = document.getElementById('greeting-section');
         const greetUser = document.getElementById('greet-user');
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const role = data.role;
-                    teacherLinks.forEach(el => el.style.display = role === 'teacher' ? 'block' : 'none');
+                    publisherLinks.forEach(el => el.style.display = role === 'publisher' ? 'block' : 'none');
                     
                     if (greetingSection && greetUser) {
                         greetingSection.style.display = 'block';
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
             manageAccountLinks.forEach(el => el.style.display = 'none');
             loginLinks.forEach(el => el.style.display = 'block');
             signupLinks.forEach(el => el.style.display = 'block');
-            teacherLinks.forEach(el => el.style.display = 'none');
+            publisherLinks.forEach(el => el.style.display = 'none');
             if (greetingSection) greetingSection.style.display = 'none';
         }
     });
